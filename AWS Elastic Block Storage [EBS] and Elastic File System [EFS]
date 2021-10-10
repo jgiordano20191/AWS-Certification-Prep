@@ -1,0 +1,385 @@
+1.  Exam Tips - EBS Overview
+
+
+-Exam TIps:  Learning EBS:  SSD Volumes
+  Highly available and scalable storage volumes you can attach to an EC2 instance
+  Gp2 (general purpose ssd)
+    Suitable for boot disks and general applications
+    Up to 16,000 per volume
+    Up to 99.9% durability
+  
+  Gp3 (general purpose ssd)
+    Suitable for high performance applications
+    Predictable 3000 iops baseline performance and 125 MiB/s regardless of volume size
+    Up to 99.9% durability
+    NOTE:  In exam never be asked IOPS of MiB/s
+ Io1 (provisioned IOPS SSD)
+    Suitable for OLTP and latency-sensitive applications
+    50 IOPS/GB
+    Up to 64,000 IOPS per volume
+    High Performance and most expensive
+    Up to 99.9% durability
+ Io2 (provisioned IOPS SSD)
+    Suitable for OLTP and latency-sensitive applications
+    500 IOPS/GiB
+    Up to 64,000 IOPS per volume
+    99.999% durability
+Latest generation Provisioned IOPS volume
+    You will never see an exam question with gp2 vs gp3,nor memorize metrics; only thing to remember if you need more than 16,000 IOPS you will need to move from general purpose to IO
+
+
+HDD Volumes
+    Highly available and scalable storage volumes you can attach to an EC2 instance
+ St1 - throughput optimized HDD
+    Suitable for big data, data warehouses and ETL
+    Max throughput is 500 MB/s per volume
+    Cannot be a boot volume
+    Up to 99.9% durability
+Cold HDD
+    Max throughput of 250 MB/s per volume
+    Less frequently accessed data
+    Cannot be a boot volume
+    Lowest cost
+    Up to 99.9% durability
+
+
+2.  Exam tips - Volumes and Snapshots
+
+Snapshots:
+    - Sharing Snapshots - you can share snapshots, but only in the region in which they were created.  To share to other regions, you will need to copy them to the destination region first.
+    - Exam - tons of scenerio questions on how to move ec2 instances from one region to another:  take a snapshot and create a copy of that snapshot, and copy to another region, 
+      thenyou can provision that ec2 instance in other region
+
+What should you know about EBS volumes
+Location - EBS volumes will always be in the same AZ as EC2
+Your EBS volumes will always be in the same AZ as the EC2 instance to which it is attached
+
+5 Tips for EBS Volumes and Snapshots
+Volumes exist on EBS, whereas snapshots exist on S3
+Snapshots are point in time photographs of volumes and are incremental in nature
+The first snapshot will take some time to create. consistent snapshots, stop the instance and detach the volumes. 
+You can share snapshots between AWS accounts as well as between regions, but first you need to copy that snapshot to the target region
+You can resize EBS volumes on the fly as well as changing the volumes
+consistent snapshots, stop the instance and detach the volumes. 
+
+3.  Exam Tips - Protecting EBS Volumes with Encryption
+
+Encrypted Volumes
+Data at rest is encrypted inside the volume
+All data in flight moving between the instance and the volume is encrypted
+All snapshots are encrypted
+All volumes created front eh snapshot are encrypted
+
+How to encrypt Volumes
+Create a snapshot of the unencrypted root device volume
+Create a copy of the snapshot and select the encrypt option
+Create an AMI from the encrypted snapshot
+Use that AMI to launch new encrypted instances
+
+4.  Exam Tips - EC2 Hibernation
+
+Exam Tips:  What you need to know about EC2 Hibernation
+EC2 hibernation preserves the in-memory RAM on persistent storage (EBS)
+Much faster to boot up because you do not need to reload the OS
+Instance RAM must be less than 150 GB
+Instance families include C3, C4, C5, M3, M4, M5, R3, R4, and R5
+Available for Windows, AMazon Linux 2 AMI, and Ubuntu
+Instances cant be hibernated for more than 60 days
+Available for on-demand instances and reserved instances
+
+
+5.  Exam Tips - EFS Overview
+
+Exam - just know where and what efs is and when you would use it
+
+Exam Tips
+What to Remember about EFS
+Supports the Network File System version 4 (NFSv4) protocol
+Only pay for the storage you use (no pre-provisioning required)
+Can scale up to pedabytes
+Can support thousands of concurrent NFS connections
+Data is stored across multiple AZs within a region
+Read after write consistency
+
+If you have a scenario-based question around highly scalable shared storage using NFS, think EFS
+
+6.  Exam tips = FSx overview
+
+EFS
+- Exam tip - if you get a question on migrating sharepoint of active directory onto some form of shared storage, immediately think of FSx for Windows
+
+Exam Tips
+In the exam, you’ll be given different scenarios and asked to choose whether you whold use EFS, FSx for Windows, or FSx for Lustre
+
+EFS:  When you need distributed highly resilient storage for linux instances and linux based applications
+
+Amazon FSx for Windows:  When you need centralized storage for Windows-based applications such as Sharepoint, Microsoft SQL, Workspaces, IIS Web Server, 
+or any other native Microsoft Application
+
+Amazon FSx for Lustre:  When you need high-speed, high-capacity distributed storage.  This will be for applications that do high performance computing (HPC),
+financial modeling, etc.  Remember that FSx for Lustre can store data directly on S3.
+
+
+7.  Exam Tips - Amazon Machine Images:  EBS vs Instance Store
+
+Instance Store Volumes ( Study Tip)
+Instance store volumes are sometimes called ephemeral storage.  Instance store volumes cannot be stopped.  If the underlying host fails, you will lose your data.  You can, however, reboot the instance without losing your data.
+If you delete the instance, you will lose the instance store volume
+
+EBS-Volumes (Study Tip)
+EBS-backed instances can be stopped.  You will not lose the data on this instance if it is stopped.  You can also reboot an EBS volume and not lose your data.
+By default, the root device volume will be deleted on termination.  However, you can tell AWS to keep the root device volume with EBS volumes.
+
+If you see anything about ephemeral storage, think instance store; if you need consistent and permanent storage think EBS Volumes
+
+
+Know the diff for exam of ebs volumes and instance store volumes, 
+
+Exam Tips:  AMIs:  EBS vs Instance Store
+Instance store volumes are sometimes called ephemeral storage
+Instance store volumes cannot be stopped.  If the underlying host fais you will lose your data
+EBS-backed instances can be stopped.  You will not lose the data on the instance if it is stopped
+You can reboot both EBS and instance store volumes and you will not lose your data
+By default both root volumes will be deleted on termination.  However, with EBS volumes, you can tell AWS to keep the root device volume
+Bonus tip - an ami is just a blueprint for an ec2 instance
+
+7.  Exam tips - AWS Backup
+
+Exam Tips
+Consolidation:  Use AWS Backup to back up AWS services, such as EC2, EBS, EFS, Amazon FSx for Lustre, Amazon FSx for Windows File Server, and AWS storage gateway
+
+Organizations:  You can use AWS Organizations in conjunction with AWS Backup to back up your different AWS services across multiple AWS accounts
+
+Benefits:  Backup gives you centralized control, letting you automate your backups and define lifecycle policies for your data.  You get better compliance,
+as you can enforce your backup policies, ensure your backups are encrypted, and audit them once complete
+
+You mainly need to kwow what AWS backup is going into exam
+
+8.  Exam TiEBS:  SSD Volumes
+Highly available and scalable storage volumes you can attach to an EC2 instance
+Gp2 (General Purpose SSD)
+Suitable for boot disks and general applications
+Up to 16,000 IOPS per volume
+Up to 99.9% durability
+Gp3 (Provisioned IOPS SSD)
+Suitable for high performance applications
+Predictable 3000 IOPS baseline performance and 125 MiB/s regardless of volume size
+Up to 99.9% durability
+EBS:  SSD Volumes
+Highly available and scalable storage volumes you can attach to an EC2 instance
+Io1:  Provisioned IOPS SSD
+Suitable for OLTP and latency-sensitive applications
+50 IOPS/GiB.
+Up to 64,000 IOPS per volume
+High performance and most expensive
+Up to 99.9% durability
+Io2:  Provisioned IOPS SSD
+Suitable for OLTP and latency-sensitive applications
+500 IOPS/GiB
+Up to 64,000 IOPS per volume
+99.999% durability
+Latest generation Provisioned IOPS volume
+
+
+EBS:  HDD Volumes
+Highly available and scalable storage volumes you can attach to an EC2 Instance
+St1:  Throughput Optimized HDD
+Suitable for big data, data warehouses, ETL
+Max throughput is 500 MB/s per volume
+Cannot be a boot volume
+Up to 99.9% durability
+Sc1:  Cold HDD
+Max throughput of 250 MB/s per volume
+Less frequently accessed data
+Cannot be a boot volume
+Lowest cost
+Up to 99.9% durability
+
+
+
+5 Tips for EBS volumes and snapshots
+Volumes exist on EBS, whereas snapshots exist on S3
+Snapshots are point-in-time photographs of volumes and are incremental in nature
+The first snapshot will take some time to create.  For consistent snapshots, stop the instance and detach the volume.
+You can share snapshots between AWS accounts as well as between regions, but first you need to copy that snapshot to the target region.
+You can resize EBS volumes on the fly as well as changing the volume types
+
+AMIs:  EBS vs Instance Store
+Instance store volumes are sometimes called ephemeral storage
+Instance store volumes cannot be stopped.  If the underlying host fails, you will lose your data
+You can reboot both EBS and instance store volumes and you will not lose your data
+By default, both root volumes will be deleted on termination.  However, with EBS volumes, you can tell AWS to keep the root device volume
+EBS backed instances can be stopped.  You will not lose hte data on this instance if it is stopped
+Bonus Tip:  An AMI is just a blueprint for an EC2 instance
+With encrypted volumes:
+Data at rest is encrypted inside the volume
+All the data in flight moving between the instance and the volume is encrypted
+All snapshots are encrypted
+All volumes created from the snapshot are encrypted
+Exam Tip:  To Encrypt volumes:
+Create a snapshot of the unencrypted root device volume
+Create a copy of the snapshot and select the encrypt option
+Create an AMI from the encrypted snapshot
+Use that AMI to launch new encrypted instances
+
+What you need to know about EC2 hibernation
+EC2 hibernation preserves the in-memory RAM on persistent storage (EBS)
+Much faster to boot up because you do not need to reload the OS
+Instance RAM must be less than 150 GB
+Instance families include C3, C4, C5, M3, M4, M5, R3, R4, and R5
+Available for WIndows, Amazon LInux 2 AMI, and Ubuntu
+Instances cant be hibernated for more than 60 days
+Available for On-Demand instances and reserved instances
+
+What to remember about EFS
+Supports the Network File System version 4 (NFSv4) protocol
+Can support thousands of concurrent NFS connections
+Only pay for the storage you use (no pre-provisioning required)
+Data is stored across multiple AZs within a region
+Can scale up to petabytes
+Read after write consistency
+Bonus Tip:  If you have a scenario based question around highly scalable shared storage using NFS, think EFS
+
+FSx Overview
+In the exam you’ll be given different scenarios and asked to choose whether you should use EFS, FSx for Windows, or FSx for Lustre
+EFS:  When you need distributed, highly resilient storage for Linux instances and LInux based applications
+Amazon FSx for Windows:  When you need centralized storage for Windows-based applications, such as Sharepoint, Microsoft SQL Server, Workspaces, IIS Web Server, or any other native microsoft application.
+Amazon FSx for Lustre:  When you need high-speed, high-capacity distributed storage.  This will be for applications that do high performance computing (HPC), financial modeling, etc.  Remember that FSx for Lustre can store data directly on S3.
+
+Storage Options Use Cases
+S3
+Used for serverless object storage
+Glacier
+Used for archiving objects
+EFS
+Network File System (NFS) for Linux Instances.  Centralized storage solution across multiple AZs.
+FSx for Lustre
+File storage for high performance computing linux file systems
+EBS Volumes
+Persistent storage for EC2 instances
+Instance Store
+Ephemeral storage for EC2 instances
+FSx for Windows
+File storage for Windows instances.  Centralized storage solution across multiple AZs.
+Bonux Tip:  Knowing the different use cases for storage will gain you valuable points in the exam.
+
+AWS Backup
+Consolidation:  Use AWS Backup to back up AWS services, such as EC2, EBS, EFS, Amazon FSx for Lustre, Amazon FSx for Windows File Server, and AWs Storage Gateway
+Organizations:  You can use AWS Organizations in conjunction with AWS Backup to back up your different AWS services across multiple AWS accounts
+Benefits: Backup gives you centralized control, letting you automate your backups and define lifecycle policies for your data.  You get better compliance, as you can enforce your backup policies, ensure your backups are encrypted, and audit them once complete
+ps - 
+
+
+EBS:  SSD Volumes
+Highly available and scalable storage volumes you can attach to an EC2 instance
+Gp2 (General Purpose SSD)
+Suitable for boot disks and general applications
+Up to 16,000 IOPS per volume
+Up to 99.9% durability
+Gp3 (Provisioned IOPS SSD)
+Suitable for high performance applications
+Predictable 3000 IOPS baseline performance and 125 MiB/s regardless of volume size
+Up to 99.9% durability
+EBS:  SSD Volumes
+Highly available and scalable storage volumes you can attach to an EC2 instance
+Io1:  Provisioned IOPS SSD
+Suitable for OLTP and latency-sensitive applications
+50 IOPS/GiB.
+Up to 64,000 IOPS per volume
+High performance and most expensive
+Up to 99.9% durability
+Io2:  Provisioned IOPS SSD
+Suitable for OLTP and latency-sensitive applications
+500 IOPS/GiB
+Up to 64,000 IOPS per volume
+99.999% durability
+Latest generation Provisioned IOPS volume
+
+
+EBS:  HDD Volumes
+Highly available and scalable storage volumes you can attach to an EC2 Instance
+St1:  Throughput Optimized HDD
+Suitable for big data, data warehouses, ETL
+Max throughput is 500 MB/s per volume
+Cannot be a boot volume
+Up to 99.9% durability
+Sc1:  Cold HDD
+Max throughput of 250 MB/s per volume
+Less frequently accessed data
+Cannot be a boot volume
+Lowest cost
+Up to 99.9% durability
+
+
+
+5 Tips for EBS volumes and snapshots
+Volumes exist on EBS, whereas snapshots exist on S3
+Snapshots are point-in-time photographs of volumes and are incremental in nature
+The first snapshot will take some time to create.  For consistent snapshots, stop the instance and detach the volume.
+You can share snapshots between AWS accounts as well as between regions, but first you need to copy that snapshot to the target region.
+You can resize EBS volumes on the fly as well as changing the volume types
+
+AMIs:  EBS vs Instance Store
+Instance store volumes are sometimes called ephemeral storage
+Instance store volumes cannot be stopped.  If the underlying host fails, you will lose your data
+You can reboot both EBS and instance store volumes and you will not lose your data
+By default, both root volumes will be deleted on termination.  However, with EBS volumes, you can tell AWS to keep the root device volume
+EBS backed instances can be stopped.  You will not lose hte data on this instance if it is stopped
+Bonus Tip:  An AMI is just a blueprint for an EC2 instance
+With encrypted volumes:
+Data at rest is encrypted inside the volume
+All the data in flight moving between the instance and the volume is encrypted
+All snapshots are encrypted
+All volumes created from the snapshot are encrypted
+Exam Tip:  To Encrypt volumes:
+Create a snapshot of the unencrypted root device volume
+Create a copy of the snapshot and select the encrypt option
+Create an AMI from the encrypted snapshot
+Use that AMI to launch new encrypted instances
+
+What you need to know about EC2 hibernation
+EC2 hibernation preserves the in-memory RAM on persistent storage (EBS)
+Much faster to boot up because you do not need to reload the OS
+Instance RAM must be less than 150 GB
+Instance families include C3, C4, C5, M3, M4, M5, R3, R4, and R5
+Available for WIndows, Amazon LInux 2 AMI, and Ubuntu
+Instances cant be hibernated for more than 60 days
+Available for On-Demand instances and reserved instances
+
+What to remember about EFS
+Supports the Network File System version 4 (NFSv4) protocol
+Can support thousands of concurrent NFS connections
+Only pay for the storage you use (no pre-provisioning required)
+Data is stored across multiple AZs within a region
+Can scale up to petabytes
+Read after write consistency
+Bonus Tip:  If you have a scenario based question around highly scalable shared storage using NFS, think EFS
+
+FSx Overview
+In the exam you’ll be given different scenarios and asked to choose whether you should use EFS, FSx for Windows, or FSx for Lustre
+EFS:  When you need distributed, highly resilient storage for Linux instances and LInux based applications
+Amazon FSx for Windows:  When you need centralized storage for Windows-based applications, such as Sharepoint, Microsoft SQL Server, Workspaces, IIS Web Server, or any other native microsoft application.
+Amazon FSx for Lustre:  When you need high-speed, high-capacity distributed storage.  This will be for applications that do high performance computing (HPC), financial modeling, etc.  Remember that FSx for Lustre can store data directly on S3.
+
+Storage Options Use Cases
+S3
+Used for serverless object storage
+Glacier
+Used for archiving objects
+EFS
+Network File System (NFS) for Linux Instances.  Centralized storage solution across multiple AZs.
+FSx for Lustre
+File storage for high performance computing linux file systems
+EBS Volumes
+Persistent storage for EC2 instances
+Instance Store
+Ephemeral storage for EC2 instances
+FSx for Windows
+File storage for Windows instances.  Centralized storage solution across multiple AZs.
+Bonux Tip:  Knowing the different use cases for storage will gain you valuable points in the exam.
+
+AWS Backup
+Consolidation:  Use AWS Backup to back up AWS services, such as EC2, EBS, EFS, Amazon FSx for Lustre, Amazon FSx for Windows File Server, and AWs Storage Gateway
+Organizations:  You can use AWS Organizations in conjunction with AWS Backup to back up your different AWS services across multiple AWS accounts
+Benefits: Backup gives you centralized control, letting you automate your backups and define lifecycle policies for your data.  You get better compliance, as you can enforce your backup policies, ensure your backups are encrypted, and audit them once complete  
+
