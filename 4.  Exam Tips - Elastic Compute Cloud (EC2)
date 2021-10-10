@@ -1,0 +1,246 @@
+1.  Exam Tips - EC2 Overview
+    - EC2 Pricing Options
+        - On Demand - pay by the hour or second, depending on the type of instance you run
+        - Reserved - Reservced by capacity for 1 or 3 years.  Up to 72% discount on the hourly charge
+        - Spot - purchase unused capacity at a discount of up to 90%.  Prices fluctuate with supply and demand.
+        - Dedicated - A physical EC2 server dedicated for your use.  The most expensive option.
+        - Will ask in the exam best pricing options scenerios, so will need to know 4 pricing options above on exam.
+    - Exam Question - Scenerio - you need to estimate cost of a move to aws, what should you use?  You should use the AWS calculator
+    - Exam tips
+      - EC2 is like a VM, hosted in AWS insted of your own data center
+          - Select the capacity you might need right now.  Grow and shrink when you need to
+          - pay for what you use
+          - wait minutes and not months
+       - EC2 instance pricing options
+          - On-Demand - pay by the hour or the second, depending on the sypoe of instance you run.  Great for flexitility
+          - Spot - Purchase unused capacity at a discount of up to 90%.  Prices fluctuate with supply and demand.  Great for applications with flexibile start and end 
+            times.  
+          - Reserved - Reserved capacity for 1 or 3 years.  Up to 72% discount on the hourly charge.  Great i fyou have known fixed requriements.
+          - Dedicated - A physical EC2 server dedicated for your use.  Great if you have server-bound licenses or reuse or compliance requrements
+ 2.  Exam Tips - Launching an EC2 instance
+          - Ec2 is under compute
+          - choose type, size, ex t2 linux
+          - choose config info - # of instances, spot instances, network (vpc), Subnets (1 subnet always equal to one AZ), choose no preference
+             -  Look at all diff options, will lern later
+          - Add storage, tabs, security groups and ports, hit review and launch
+ 3.  Exam Tips - AWS Command Line
+          - Least privilege - always give your users the minimum amoubt of access requireed to do their job
+          - Use Group - Create IAM groups and assign your users to groups.  Group permissions are assigned using IAM policy documents
+          - Your users will automatically inherit the permissions of the group
+          - CLI Tips
+              - Secret Access Key - you will only see this once!  if you lose it, you can delete the access key ID and Secret access key and generate them.
+                  - you will need to run aws configure again
+                  
+              -  Dont share key pairs - Each developer should have their own accesse key ID and secret access key.  Just like passwords they should nto be shared.
+              - Supports linux, windows, macOS - you can isntall the cli on your mac, linux or windows pc.  You can also use it on ec2 instances.
+              
+4.  Exam Tips - Using Roles
+          - What you should remember when using roles
+              - the preferred option
+                  - roles are preferred from a security perspective
+          - Avoid hard-coding your credentials
+              - Roles allow you to provide access without the use of access key IDs and secret access key
+          - Policies
+              - Policies control a roles permissions
+          - Updates 
+              - You can update a policy attached to a role, and it will take immediate effect
+          - Attaching and Detaching
+              - You can attach and detach roles to running EC2 instances without having to stop or terminate those instances
+              
+ 5.  Exam Tips - Security Groups and Bootstrap Scripts
+           - tip 1 - changes ot security groups take effect immediately
+           - tip 2 - you can have any number of EC2 instances within a security group
+           - tip 3 - you can have multiple security groups attached to ec2 instances
+           - tip 4 - all inbound traffic is blocked by default
+           - tip 5 - all inbound traffic is allowed
+           
+           - bootstrap scripts - A bootstrap script that runs when the instance first runs.  If passes user data to the EC2 instance and can be used to install 
+             applications (like web servers and databases), as well as do updaes and more
+             
+   6.  Exam Tips - EC2 Metadata and User Data
+          - User data vs Metadata exam tips
+            - user data is simply bootstrap scripts
+            - metadata is data bout your ec2 instances
+            - you can use bootstrap scripts (user data) to access metadata
+              - Example:
+              #!/bin/bash
+Curl http://169.254.169,254/latest/meta-data/local-ipv4 > myIP.txt
+In this simple bootstrap (user data) script, we use the curl command to save our EC2 metadata
+Bootstrap script
+#!/bin/bash
+yum update -y
+yum install httpd -y
+service httpd start
+cd /var/www/html
+echo "<html><body><h1>My IP is" > index.html 
+curl http://169.254.169.254/latest/meta-data/public-ipv4 >> index.html
+echo "</h1></body></html>" >> index.html 
+
+
+7.  Exam Tips - Networking with EC2
+    - ENA vs VF
+        - Depending on your instance type, enhanced networking can be enabled using:
+            - elastic network adapter (ENA) - supports network speeds of up to 100 Gbps for supported instance types
+            - Intel 82599 virtual Function (VF) interface
+            
+    - What is EFA?
+        - Elastic Fabric Adapter
+        - A network device you can attach to your Amazon EC2 instance to accelerate High performance computing (HPC) and machine learning application
+        - Provides lower and more consistent latency and higher throughput than the TCP transport traditionally used in cloud-based systems
+        - Any scenario question where they talk about High Performance computing and what network adapters should use, think of elastic fabric acapter
+        
+        - if you see any question about an OS bypass, and can enhace HPC and ML apps, think of using OS-Bypass with Elastic Fabric Adapter
+    
+    - For Different scenerios on the exam; shoose the correct networking device
+        -ENI: for basic networking.  Perhaps you need to separagte management network from your production network or a separate logging network, you need to do
+         this at low cost.  In this scenerio, use multiple ENIs for each network.
+         - Enhanced Networking - For when you need speeds between 10 Gbps and 100 Gbps.  Anywhere you need reliable high throughput.
+         - EFS - for when you need to accelerate high performace computing (HPC) and machine learning applications or if you need to to do an OS-bypass.  If you see a scenerio
+           question mentioning HPC or ML and asking what network adapter you want, choose EFA
+           
+8.  Exam Tips - Optimizing EC2 Placement Groups
+      - 3 Types of placement groups
+          - Cluster placement groups - low nework latency, high throughput
+          - Spread Placement groups - individual critical ec2 instances
+          - Partition placement groups - multiple ec2 instances; hdfs, hbase and cassandra
+              - used for multiple instances
+      
+      - A cluster placement group cant span multipe AZs whereas a spread placement group and partition placement group can
+      - only sertain types of instances can be launched in a placement group (compute optimized, GPU, memory optimized, storage optimized)
+      - AWs recommends homogeneous intances within cluster placement groups
+      - you cant merge placement groups
+      - you can move an existing instance into a placement group.  Before you move the instance, the instance must be in the stopped state.  You can
+        move or remove an instance using the AWS CLI an AWS SDk but you cant do it via the console yet
+        
+        
+9.  Exam Tips - Solving licensing issues with dedicated hosts
+      -  Dedicated hosts
+          - compliance - regulatroy requriement that may not support multi-tenant virtualization
+          - licensing - great for licensing that does not support multi-tenancy or cloud deployments (like microsoft or oracle)
+          - On demand - can be purchased on demand or hourly
+      -  Dedicated hosts exam tips
+          - Any question that talks about special licensing requirements
+          - An Amazon EC2 dedicated host is a physwical server with EC2 instance capacity fully dedicated to your use.  Dedicated hosts allow you to use your existing per-scoket
+            , per core, per VM software licenses.  Including Windows server, Microsoft SQL server and SUSE Linux Enterprise server.
+            
+            
+10.  Exam Tips - Timing Workloads with Spot instances and spot fleets
+          - Spot Instances are useful for
+              - big data and analytics
+              - containerized workloads
+              - ci/cd and testing
+              - image and media rendering
+              - high performance computing
+           - Spot instances are not good for
+              - persistent workloads (ie, web servers, db servers, wehre u always have a load on them)
+              - critical jobs
+              - databases
+           - How do you go in and terminate spot instances under a peristent spot request?  you just go in and cancel the spot instance request then go in and terminate spot instances -
+              exam tip
+              
+         - Spot instances save up to 90% of the cost of on demand instances
+         - Useful for any type of computing where you dont need persistent storage
+         - You can block spot instances from terminating by using a spot block
+         - A Spot Fleet is a collectin of spot instances and (optionally) on demend instances
+ 
+ 
+ 11.  Exam Tips - EC2 Exam Tips
+         -  EC2 Overview
+EC2 is like a vm, hosted in AWS instead of your own data center
+Select the capacity you need right now
+Grow and shrink when you need
+Pay for what you use
+Wait minutes not months to provision
+EC2 Instance Pricing Options - will get about 4 diff scenario questions on right pricing options and will be one of these 4
+On Demand 
+- Pay by the hour or the second, depending on the type of instance that you run
+Great for flexibility, apps with flexible start and end times
+Spot
+Purchase unused capacity at a discount of up to 90%.
+Prices fluctuate with supply and demand
+Great for apps with flexible start and end times
+Reserved
+Reserved capacity for 1 or 3 years.   Up to 72% discount on the hourly charge.  Great if you have known, fixed requirements.
+Dedicated
+A physical EC2 server dedicated for your use
+Great if you have server-bound licenses to reuse or compliance requirements
+
+
+AWS Command Line Interface
+Least privilege - always give your users the minimum amount of access required to do their job
+Use Groups - create IAM groups and assign your users to groups.  Group permissions are assigned using IAM policy documents.  You users will automatically inherit the permissions of the group.
+
+3 Important AWS CLI Tips
+Secret access key - you will only see this once!  If you lose it, you an delete the access key ID and the secret access key and regenerate them.  You will need to run aws configure again.
+Dont Share Key Pairs
+Each developer should have their own access key ID and secret access key.  Just like passwords, they should not be shared
+Supports Linux, Windows and macOS - you can install the CLI on your mac, linux or windows PC.  You can also use it on EC2 instances.
+
+Tips to Remember when using roles
+The preferred option - roles are preferred from a security perspective
+Avoid hard coding your credentials
+Roles allow you to provide access without the use of access IDs and secret access keys
+Policies
+Policies control a roles permissions
+Updates 
+You can update a policy attached to a role and it will take effect immediately
+Attaching and Detaching
+You can attach and detach roles to running EC2 instances without having to stop or terminate these instances
+
+Security Groups Exam Tips
+Changes to security groups take effect immediately
+You can have any number of EC2 instances within a security group
+You can have multiple security groups attached to EC2 instances
+All inbound traffic is blocked by default
+All outbound traffic is allowed
+
+Study Tip:  Bootstrap Scripts
+A bootstrap script is a script that runs when the instance first runs and runs at root level
+It passes user data to the EC2 instance and can be used to install apps (like web apps and databases), as well as do updates and more
+
+Comparing User Data and Metadata (scenerio questions where they try to confuse you)
+User Data
+User data is simply your bootstrap scripts
+Metadata
+Metadata is data about your EC2 instances
+You can use bootstrap scripts (user data) to access metadata
+
+
+For different scenarios on the exam, choose the correct network device
+ENI
+For basic networking.   Perhaps you need to separate management network from your production network or a separate logging network, and you need to do this at a low cost.  In this scenario, use multiple ENIs for each network.
+Enhanced Networking - For when you need speeds between 10 Gbps and 100 Gbps.  Anywhere you need reliable high throughput.
+EFA - For when you need to accelerate High Performance Computing (HPC) and machine learning applications or if you need to do an OS-bypass.  If you see a scenario question mentioning HPC or ML and asking what network adapter you want, choose EFA
+
+
+3 Types of Placement Groups
+Cluster Placement Groups
+Low network latency, high network throughput
+Spread Placement Groups
+Individual critical EC2 instances
+Partition Placement Groups
+Multiple EC2 instances; HDFS, HBase and cassandra
+
+
+Optimizing with EC2 Placement groups
+	Remember for the exam
+A cluster placement group cant span multiple AZ, whereas a spread placement group and partition placement group can
+Only certain types of instances can be launched in a placement group (compute optimized, GPU, memory optimized, storage optimized)
+AWS recommends homogenous instances within cluster placement groups
+You cant merge placement groups
+You can move an existing instance into a placement group.  Before you move the instance, the instance must be in the stopped state.   You can move or remove an instance using the AWS CLI or an AWS SDK, but you cant do it via the console yet
+
+STUDY TIP - Dedicated hosts - any question that talks about special licensing requirements or special compliance requirements
+AN Amazon EC2 Dedicated Host is a physical server with EC2 instance capacity fully dedicated to your use.  Dedicated Hosts allow you to use your existing per-socket, per-core, or per-VM software licenses including Windows Server, Microsoft SQL Server and Suse Linux Enterprise Server
+
+Spot Instance and SPot Fleet Tips
+Spot instances sae up to 90% of the cost of On-Demand instances
+You can block spot instances from terminating by using Spot Block
+Useful for any type of computing where you dont need persistent storage
+A Spot Fleet is an collection of Spot Instances and optionally, on-demand instances
+
+        
+     
+        
+              
+              
