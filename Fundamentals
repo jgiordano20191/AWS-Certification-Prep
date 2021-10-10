@@ -1,0 +1,72 @@
+Number 1:  Important for exam - AWS Fundamentals:
+
+- There are many more edge locatins than regions
+- For this exams , know the AWS Service Types below:
+  Containers
+  Analytics
+  Management and Governance
+  Migration and Transfer
+  Compute
+  Application Integration
+  Security, Identity, and Compliance
+  Network and Content Delivery
+  Storage
+  Containers
+  AWS Cost Management
+  Databases
+  AWS Global Infrastructure
+ 
+ - AWS Building Blocks Exam Tips
+    - A region is a physical location in the world that consists of two or more AZ
+    An AZ is one or more discrete data centers - each with redundant power, network and connectivity - housed in separate facilities
+    - Edge locations are endpoints for AWS that are used for caching content.  Typically consists of Cloudfront, Amazon CDN.
+    
+  
+Number 2:  Who owns the Cloud Exam tips
+- Shared Responsibility Model
+- Can you do this yourself in the console?
+  - Security groups, IAM users, patching EC2 OS, patching database, running on EC2, etc
+- If not, AWS is likely responsible
+  - Management of data centers, security camera, cabling, patching RDS, operating systems, etc
+- Encryption is a shared responsibility - both you and AWS
+
+
+Number 3 - Compute Storage, Databases, and Networking Exam Tips
+- Key services to know for the exam:
+  - Computer - EC2, Lambda, Elastic Beanstalk
+  - Storage - S3, EBS, FSx, Storage Gateway
+  - Databases - RDS, DynamoDB, Redshift
+  - Networking - VPC's, Direct Connect, Route 53, API Gateway, Global Accelerator
+ 
+ Number 4 - AWS Well Architected Framework Pillars Exam Tips
+   - Most Important for the exam:
+      - Read the whitepaper after finishing the course:  Well Architected Framework Whitepaper
+    
+    - 5 pillars of the Well-Architected Framework
+      - Operational Excellence - focuses on running and monitoring systems to deliver business value, and continually improving processes and proceedures
+    - Performance Efficience - Focuses on using IT and computing resources efficienctly
+    - Security - Focuses on protecting information and systems
+    - Cost Optimization - Focuses on avoiding unnessarary costs
+    - Reliability - Focuses on ensuring workload performs its inteded function corretly and consistent when its expected to 
+    
+ Number 5 - AWS Fundamentals Exam Tips (Entire Section Covered)
+   - 3 Tips for AWS Building Blocks
+      - A Region - is a physical location in the world that consistes of two or more AZ's 
+      - An AZ is one or more discrete data centers - each with redundant power, networking, and connectivity - housed in separate facilities
+      - Edge locations are the endpoints for AWS that are used for caching content.  Typically, this consists of Cloudfront, Amazon's content delivery network (CDN)
+   
+   - Can you do this yourself in the AWS management console?
+      - If yes you are likely responsible
+        - Security groups, IAM users, patching EC2 OS, patching databases running on EC2, etc
+      - If not, AWS is likely responsible
+        - Managemetn of data centers, security cameras, cabling, patching, RDS, OS, etc
+     
+     - Encryption is a shared responsibility
+     
+     - Key Services to know for the exam
+        - Compute - EC2, Lambda, Elastic Beanstalk
+        - Storage - S3, EBS, eFS, FSx, Storage Gateway
+        - Databases - RDS, DynamoDB, Redshift
+        - Networking - VPCs, Direct Connect, Route 53, API Gateway, AWS global Accererator
+        
+      - Before the exam, read the whitepaper - Well Architected Framework Whitepaper
