@@ -1,0 +1,67 @@
+1.  Exam Tips - securing the Root Account
+    - Enable Multi-factor authentication on the root account
+    - Create an admin group for your administrators, and assign the appropriate permissions to this group
+    - Create user accounts for your administrators
+    - Add your users to the admin group
+    
+2. Exam tips - Controlling users actions with IAM policy Documents
+  - Assign permissions using IAM policy document consisting of json
+    - see example policy document below below:
+      {
+	“Version”:  “2012-10-17”,
+	“Statement” :  [
+  	      {
+		“Effect”:  “Allow”,
+		“Action”:  “*”,
+		“Resource”:  “*”
+	      }
+	]
+}
+
+- go to IAM and click through different policies
+
+
+3.  Exam Tips - Permanent IAM Credentials
+      - Every time create a user it has no permission whatsoever  - important to know for exam
+      - IAM is universal:  it does not apply to regions at this time
+      - The Root Account:  The account is created when you first set up your AWS account and which has complete admin access.  Secure it as soon as possible and do not use it to log in day to day
+      - New Users:  No permissions when first created
+      - Access Key ID and secret keys are not the same as usernames and passwords
+      - You only get to view these once.  If you lose them, you have to regenerate them.  So, save them in secure location.
+      - Always setup password rotations.  you can create and customize your own password rotations policies.
+      - IAM Federation:  you can combine your existing user accoutn with AWS.  For example, when you log on to your pc, usually using Microsoft AD), you can use the same credentials to log into Aws
+        if you setup federation
+      - Identity Federation:  Uses the SAML standard, which is AD
+      - Enable multi-factor authentication on the root account
+      - Create an admin group for your administrators, and assign the appropriate permissions to this group
+      - Create user accounts for your administrators
+      - Add your users to the admin group
+      - Assign permissions using IAM policy documents consisting of JSON
+      
+      {
+	“Version”:  “2021-10-17”,
+	“Statement”:  [
+		{
+			“Effect”:  “Allow”,
+			“Action”:  “*”,
+			“Resource”:  “*”
+		}
+	]
+}
+
+      - Remember the following for the exam:
+          - IAM is universal:  it does not apply to regions at this time
+          - The Root Account:  this is the accoutn created when you fist steup your aws account and it has complete admin access.  Secure it as soon as possible and do not 
+            use it to log in day to day
+          - New Users:  No permissions when first created
+          - Access key ID and secret access keys are not the same as usernames and passwords.  you cannot use the access key ID and secret access key to log into the consoel.  However 
+            you would use them to access AWS via the APIs and CLI
+          - You only get to view these once.  If you lose them, you have to regenerate them.  So, save them in a secure location.
+          - Always set up password rotations.  You can create and Customize your own password rotation policies.
+          - IAM Fedration:  You can combine your existing account with AWS.  For example when you log on to your pc (usually using Microsoft AD), you can use the same credentials
+            to log in to aws if you setup federation.
+          -  Identity Federation:  Uses Saml standard, which is AD
+      
+      
+  
+  
