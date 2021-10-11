@@ -226,6 +226,8 @@
                   - You can replicate objects from one bucket to another
                   - objects in an existing bucket are not replicated automatically
                   - delete marker are not replicated by default
+                  - What are the typical retrieval times for the Amazon S3 Glacier Standard option? The Standard version of Glacier allows you 
+                  to retrieve objects in 3-5 hours. Reference Documentation: Amazon S3 Glacier FAQs > Storage Classes.
             
      
   
