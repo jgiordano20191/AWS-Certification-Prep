@@ -37,7 +37,9 @@
         - Cannot be disabled:  Once enabled, versioning cannot be disabled - only suspended
         - Lifecycle Rules - can be integrated with lifecycle rules
         - Supports MFA:  Can support multi-factor authentication
-        
+        - Versioning on your bucket was recently suspended and, after this, your boss deleted an object whose version ID is null and wants to restore it. What do you do? 
+          It's not possible since versioning was suspended. The object is gone.
+          
   5. Exam Tips - S3 Storage Classes
         - S3 statndard hightest cost tier - know for the exam
         - Then s3 intelligent tiering - cost optimized for unknown access patterns; so if you get a scenerio question where you dont know how frequently your data
