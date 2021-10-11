@@ -3,6 +3,7 @@
     - Create an admin group for your administrators, and assign the appropriate permissions to this group
     - Create user accounts for your administrators
     - Add your users to the admin group
+    - The elements included in a policy document that make up the "EAR" are effect, action, and resource. Reference Documentation: Policies and Permissions in IAM
     
 2. Exam tips - Controlling users actions with IAM policy Documents
   - Assign permissions using IAM policy document consisting of json
