@@ -239,6 +239,8 @@ You can block spot instances from terminating by using Spot Block
 Useful for any type of computing where you dont need persistent storage
 A Spot Fleet is an collection of Spot Instances and optionally, on-demand instances
 
+
+What is user data commonly used for?  User data is commonly used to bootstrap instances. Reference Documentation: Run Commands on Your Linux Instance at Launch
         
      
         
